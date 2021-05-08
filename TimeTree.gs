@@ -17,20 +17,19 @@ function getUpcomingEvents(days) {
   let headers = { "accept": accept, "Authorization": "Bearer " + accessToken,}; 
 
   // パラメーター
-	let parameters = { "headers": headers, "timezone": timezone, "days": days, "include": include};
+  let parameters = { "headers": headers, "timezone": timezone, "days": days, "include": include};
 
    let response =  UrlFetchApp.fetch(url, parameters);
    return getResponseData(response);
 }
 
+// APIのレスポンスからタイトル、開始時刻、終了時刻を取得
 function getCalendarEvents(response) {
    let json = JSON.parse(response.getContentText());
    let datas = json["data"];
 
    datas.forEach((data) => {
      let attributes = data["attributes"];
-
-     // タイトル、開始時刻、週力時刻
      let title = data["title"];
      let start_time = formatTime(attributes["start_at"]);
      let end_time = formatTime(attributes["end_at"]);
